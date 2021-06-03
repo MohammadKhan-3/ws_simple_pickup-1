@@ -1,0 +1,83 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="rough_gripper" params="prefix">
+
+    <!-- link list -->
+    <link name="${prefix}eef_link">
+        <visual>
+            <!--centered half of radius, dont change-->
+            <origin xyz="0.0508 -0.0508 0" rpy="0 -${radians(90)} 0" />
+            <geometry>
+                <mesh filename="package://rough_gripper_support/meshes/circle_base_collision.stl"/>
+            </geometry>
+            <material name="eef">
+                <color rgba="0.5 0.8 0.5 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 -${radians(90)} 0" />
+            <geometry>
+                <mesh filename="package://rough_gripper_support/meshes/circle_base_collision.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="${prefix}left_gripper_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="${radians(90)} 0 -${radians(90)}" />
+            <geometry>
+                <mesh filename="package://rough_gripper_support/meshes/left_grip_collision.stl"/>
+            </geometry>
+            <material name="eef">
+                <color rgba="0.5 0.8 0.5 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${radians(90)} 0 -${radians(90)}" />
+            <geometry>
+                <mesh filename="package://rough_gripper_support/meshes/left_grip_collision.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="${prefix}right_gripper_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="${radians(90)} 0 -${radians(90)}" />
+            <geometry>
+                <mesh filename="package://rough_gripper_support/meshes/right_grip_collision.stl"/>
+            </geometry>
+            <material name="eef">
+                <color rgba="0.5 0.8 0.5 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${radians(90)} 0 -${radians(90)}" />
+            <geometry>
+                <mesh filename="package://rough_gripper_support/meshes/right_grip_collision.stl"/>
+            </geometry>
+        </collision>
+    </link>
+    <link name="${prefix}eef_tcp"/>
+
+    <!-- joint list (change 0.0907 to .134 for real gripper)-->
+	<joint name="${prefix}eef_link-eef_tcp" type="fixed">
+        <origin xyz="0 0 0.0907" rpy="0 0 0"/>
+        <parent link="${prefix}eef_link"/>
+        <child link="${prefix}eef_tcp"/> 
+    </joint>
+    
+    <joint name="${prefix}joint_left" type="prismatic">
+      <parent link="${prefix}eef_link"/>
+      <child link="${prefix}left_gripper_link"/>
+      <origin xyz="0.006375 0.0762 0.00635" rpy="0 0 0"/>
+      <axis xyz="0 1 0" />
+      <limit lower="-0.02" upper="0.025" effort="1000.0" velocity="0.5"/>
+    </joint>
+    <joint name="${prefix}joint_right" type="prismatic">
+      <parent link="${prefix}eef_link"/>
+      <child link="${prefix}right_gripper_link"/>
+      <origin xyz="0.006375 0.0254 0.00635" rpy="0 0 0"/>
+      <axis xyz="0 1 0" />
+      <limit lower="-0.025" upper="0.02" effort="1000.0" velocity="0.1"/>
+    </joint>
+    
+  </xacro:macro>
+</robot>

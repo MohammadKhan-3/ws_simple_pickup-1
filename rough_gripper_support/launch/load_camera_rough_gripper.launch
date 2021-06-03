@@ -1,0 +1,3 @@
+<launch>
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find rough_gripper_support)/urdf/camera_mh5l_rough_gripper.xacro'" />
+</launch>

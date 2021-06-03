@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" >
+	<xacro:macro name="rough_gripper_camera" params="prefix">
+	<!--End eff-->
+	<xacro:include filename="$(find rough_gripper_support)/urdf/rough_gripper_macro.xacro" />
+
+	<xacro:include filename="$(find rough_gripper_support)/urdf/d435_camera_macro.xacro" />
+
+
+	<!--Build Kinematic Chain using imported components -->
+
+	<xacro:rough_gripper prefix="" />
+	<xacro:realsense2_camera prefix=""/>
+
+	<joint name="base_link-eef_link" type="fixed">
+		<parent link= "eef_link"/>
+		<child link="base_link"/>
+		<origin rpy="0 0 0" xyz = "0 0.5 0"/>
+	</joint>
+</robot>
