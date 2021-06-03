@@ -276,7 +276,7 @@ class moveManipulator(object):
     self.object_name = "object"
 
     # Add object to scene
-    self.scene.add_box(self.object_name, object_pose, size=(0.02, 0.02, 0.02))
+    self.scene.add_box(self.object_name, object_pose, size=(0.005, 0.005, 0.005))
 
     # Alternively, Use Mesh of Object. (mixed success with this. See moveit webpage)
     #self.scene.add_mesh(self.object_name, object_pose, filename="$(find object)/meshes/object-model.stl", size=(1,1,1))

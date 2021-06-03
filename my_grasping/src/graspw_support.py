@@ -22,12 +22,12 @@ def main():
     eef = moveManipulator('EEF')
     rc.set_vel(0.1)
     rc.set_accel(0.1)
-    eef.set_vel(0.1)
-    eef.set_accel(0.1)
+    #eef.set_vel(0.1)
+    #eef.set_accel(0.1)
 
     raw_input('Go to All Zeroes <enter>')
     rc.goto_all_zeros()
-    eef.goto_named_target('open')
+    #eef.goto_named_target('open')
 
     raw_input('Add cube <enter>')
     rc.add_object()
@@ -38,7 +38,7 @@ def main():
     #rc.goto_Quant_Orient(pose_lineup)
     #pose_lower = [0,0.6,0.05,0,1,0,0]
     #rc.goto_Quant_Orient(pose_lower)
-    pose_lower = [0,0.6,-0.025,0,1,0,0]
+    pose_lower = [0,0.6,0.015,0,1,0,0]
     rc.goto_Quant_Orient(pose_lower)
     #trying cartesian path (did not reach all the way to the cube)
     #lower_plan = rc.plan_cartesian_lineup_path(-0.39)
@@ -46,7 +46,7 @@ def main():
 
     raw_input('Grab the cube <enter>')
     
-    eef.goto_named_target('close')
+    #eef.goto_named_target('close')
     joint_closed = eef.move_group.get_current_joint_values()
     #joint_closed[0] = -0.007
     #oint_closed[1] = 0.007
@@ -56,7 +56,7 @@ def main():
     rc.attach_object()
     rc.goto_all_zeros()
     rc.detach_object()
-    rospy.sleep(10)
+    rospy.sleep(3)
     rc.remove_object()
 
   except rospy.ROSInterruptException:
