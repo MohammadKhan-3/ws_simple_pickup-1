@@ -152,10 +152,34 @@ class moveManipulator(object):
     (plan, fraction) = self.move_group.compute_cartesian_path(
                                        waypoints,   # waypoints to follow
                                        0.05,        # eef_step
-                                       0.0)         # jump_threshold
+                                       0.0)         # jump_threshold0
+    15
 
     # Note: We are just planning, not asking move_group to actually move the robot yet:
     return plan
+
+     # create a go to home position function
+  def goto_crouch(self):
+    # Get Current Position
+    joint_goal = self.move_group.get_current_joint_values()
+    
+    # Define "All-Zeros" Position
+    joint_goal[0] = 0
+    joint_goal[1] = -0.90 # L joint, negative numbe leans back more
+    joint_goal[2] = -0.41 # negative number moves gripper closer to robot body
+    joint_goal[3] = 0
+    joint_goal[4] = -1.7 # twists gripper down
+    joint_goal[5] = 0
+
+    # Send action to move-to defined position
+    self.move_group.go(joint_goal, wait=True)
+
+    # Calling ``stop()`` ensures that there is no residual movement
+    self.move_group.stop()
+
+    # For testing:
+    current_joints = self.move_group.get_current_joint_values()
+    return all_close(joint_goal, current_joints, 0.01)
 
   def goto_Quant_Orient(self,pose):
     ## GOTO Pose Using Cartesian + Quaternion Pose
@@ -179,7 +203,7 @@ class moveManipulator(object):
       pose_goal.position.z = pose[2]
 
     # Convert Euler Orientation Request to Quanternion
-    if isinstance(pose, list) and len(pose) == 6:
+    if isinstance(pose, list) and len(pose) == 6: # == 6
       # Assuming Euler-based Pose List
       q_orientGoal = quaternion_from_euler(pose[3],pose[4],pose[5],axes='sxyz')
       pose_goal.orientation.x = q_orientGoal[0]
